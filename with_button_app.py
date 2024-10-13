@@ -121,4 +121,4 @@ def symbolic_operations():
     st.subheader("Symbolic Differentiation and Integration")
 
     x = sp.symbols('x')
-    expr = st.text_input("Enter an expression in terms of x) #(e.g., x**2 + 2*x + 1)
+    expr = st.text_input("Enter an expression in terms of x") #(e.g., x**2 + 2*x + 1)
