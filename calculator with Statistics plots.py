@@ -84,7 +84,7 @@ def plot_function():
         elif func_choice == "Exponential":
             y = np.exp(x)
         elif func_choice == "Square Root":
-            y = np.sqrt(np.clip(x, 0, None))
+            y = np.sqrt(np.clip(x, 0, None))  # Clip to avoid negative values for sqrt
 
         fig, ax = plt.subplots()
         ax.plot(x, y)
@@ -155,6 +155,7 @@ def statistical_plots():
                 fig, ax = plt.subplots()
                 ax.hist(midpoints, weights=freq_data, bins=len(midpoints), color='green', alpha=0.7)
                 st.pyplot(fig)
+
 # Sidebar feature selection
 st.sidebar.title("Choose a Feature")
 feature = st.sidebar.radio("Select a feature", ("Basic Calculator", "Scientific Functions", "Plot Functions", "Symbolic Calculations", "Statistical Plots"))
@@ -167,7 +168,6 @@ elif feature == "Scientific Functions":
 elif feature == "Plot Functions":
     plot_function()
 elif feature == "Symbolic Calculations":
-    symbolic
-    #operations()
+    symbolic_operations()
 elif feature == "Statistical Plots":
     statistical_plots()
