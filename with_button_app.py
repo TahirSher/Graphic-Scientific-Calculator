@@ -5,7 +5,7 @@ import sympy as sp
 from math import sin, cos, tan, sqrt, log, exp, pi
 
 # Title of the app
-st.title('Scientific Calculator with Plotting')
+st.title('Graphic & Scientific Calculator')
 
 # Inject CSS for hover color change on button
 st.markdown(
