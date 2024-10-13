@@ -121,4 +121,26 @@ def symbolic_operations():
     st.subheader("Symbolic Differentiation and Integration")
 
     x = sp.symbols('x')
-    expr = st.text_input("Enter an expression in terms of x") #(e.g., x**2 + 2*x + 1)
+    expr = st.text_input("Enter an expression in terms of x (e.g., x**2 + 2*x + 1)")
+    if expr:
+        expr = sp.sympify(expr)
+        derivative = sp.diff(expr, x)
+        integral = sp.integrate(expr, x)
+
+        st.write(f"Expression: {expr}")
+        st.write(f"Derivative of the expression: {derivative}")
+        st.write(f"Indefinite integral of the expression: {integral}")
+
+# Sidebar feature selection
+st.sidebar.title("Choose a Feature")
+feature = st.sidebar.radio("Select a feature", ("Basic Calculator", "Scientific Functions", "Plot Functions", "Symbolic Calculations"))
+
+# Display the corresponding feature
+if feature == "Basic Calculator":
+    calculator()
+elif feature == "Scientific Functions":
+    scientific_functions()
+elif feature == "Plot Functions":
+    plot_function()
+elif feature == "Symbolic Calculations":
+    symbolic_operations()
