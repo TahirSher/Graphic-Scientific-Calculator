@@ -14,7 +14,7 @@ def calculator():
     num2 = st.number_input("Enter second number", step=1e-6, format="%.6f")
     operation = st.selectbox("Choose an operation", ("Add", "Subtract", "Multiply", "Divide"))
 
-    if st.button("Calculate"):
+    if st.button("Calculate Arithmetic Operation"):
         if operation == "Add":
             result = num1 + num2
             st.write(f"Result: {num1} + {num2} = {result}")
@@ -35,8 +35,8 @@ def calculator():
 def scientific_functions():
     st.subheader("Scientific Functions")
 
-    num = st.number_input("Enter a number", step=1e-6, format="%.6f")
-    func = st.selectbox("Choose a function", ("Sine", "Cosine", "Tangent", "Square Root", "Logarithm", "Exponential"))
+    num = st.number_input("Enter a number for scientific calculations", step=1e-6, format="%.6f")
+    func = st.selectbox("Choose a scientific function", ("Sine", "Cosine", "Tangent", "Square Root", "Logarithm", "Exponential"))
 
     if st.button("Calculate Scientific Function"):
         try:
@@ -67,7 +67,7 @@ def scientific_functions():
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
-# Statistical Functions
+# Statistical Functions for Ungrouped and Grouped Data
 def statistical_plots():
     st.subheader("Statistical Analysis")
 
