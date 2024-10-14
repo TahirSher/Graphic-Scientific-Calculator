@@ -69,8 +69,8 @@ def plot_function():
     st.subheader("Plot a Function")
 
     func_choice = st.selectbox("Select a function to plot", ("Sine", "Cosine", "Tangent", "Exponential", "Square Root"))
-    x_min = st.number_input("Enter the minimum x value", -100, 0, -10)
-    x_max = st.number_input("Enter the maximum x value", 0, 100, 10)
+    x_min = st.number_input("Enter the minimum x value", value=-10)
+    x_max = st.number_input("Enter the maximum x value", value=10)
 
     if st.button("Plot Function"):
         x = np.linspace(x_min, x_max, 400)
@@ -86,6 +86,7 @@ def plot_function():
         elif func_choice == "Square Root":
             y = np.sqrt(np.clip(x, 0, None))  # Clip to avoid negative values for sqrt
 
+        # Plotting
         fig, ax = plt.subplots()
         ax.plot(x, y)
         ax.set_title(f'Plot of {func_choice}(x)')
@@ -117,44 +118,45 @@ def statistical_plots():
 
     if data_type == "Ungrouped":
         ungrouped_data = st.text_area("Enter your ungrouped data (comma-separated)", "1, 2, 3, 4, 5, 6")
-        data = np.array([float(i) for i in ungrouped_data.split(",") if i.strip() != ""])
+        try:
+            data = np.array([float(i.strip()) for i in ungrouped_data.split(",")])
+            plot_type = st.selectbox("Select plot type", ("Histogram", "Box Plot"))
 
-        plot_type = st.selectbox("Select plot type", ("Histogram", "Box Plot"))
-
-        if st.button("Plot Ungrouped Data"):
-            if plot_type == "Histogram":
+            if st.button("Plot Ungrouped Data"):
                 fig, ax = plt.subplots()
-                ax.hist(data, bins='auto', color='blue', alpha=0.7, rwidth=0.85)
+                if plot_type == "Histogram":
+                    ax.hist(data, bins='auto', color='blue', alpha=0.7, rwidth=0.85)
+                elif plot_type == "Box Plot":
+                    ax.boxplot(data)
                 st.pyplot(fig)
-            elif plot_type == "Box Plot":
-                fig, ax = plt.subplots()
-                ax.boxplot(data)
-                st.pyplot(fig)
+        except Exception as e:
+            st.error(f"Error processing ungrouped data: {e}")
 
     elif data_type == "Grouped":
         intervals = st.text_area("Enter group intervals (comma-separated, e.g., 0-10, 11-20)", "0-10, 11-20")
         frequencies = st.text_area("Enter frequencies (comma-separated)", "5, 10")
 
-        interval_ranges = intervals.split(",")
-        freq_data = np.array([int(i) for i in frequencies.split(",") if i.strip() != ""])
+        try:
+            interval_ranges = intervals.split(",")
+            freq_data = np.array([int(i) for i in frequencies.split(",") if i.strip()])
 
-        if len(freq_data) != len(interval_ranges):
-            st.error("Error: The number of frequencies must match the number of intervals.")
-            return
+            if len(freq_data) != len(interval_ranges):
+                st.error("Error: The number of frequencies must match the number of intervals.")
+                return
 
-        midpoints = [(int(interval.split('-')[0]) + int(interval.split('-')[1])) / 2 for interval in interval_ranges]
+            midpoints = [(int(interval.split('-')[0]) + int(interval.split('-')[1])) / 2 for interval in interval_ranges]
 
-        plot_type = st.selectbox("Select plot type for grouped data", ("Bar Chart", "Histogram"))
+            plot_type = st.selectbox("Select plot type for grouped data", ("Bar Chart", "Histogram"))
 
-        if st.button("Plot Grouped Data"):
-            if plot_type == "Bar Chart":
+            if st.button("Plot Grouped Data"):
                 fig, ax = plt.subplots()
-                ax.bar(midpoints, freq_data, color='purple', alpha=0.7)
+                if plot_type == "Bar Chart":
+                    ax.bar(midpoints, freq_data, color='purple', alpha=0.7)
+                elif plot_type == "Histogram":
+                    ax.hist(midpoints, weights=freq_data, bins=len(midpoints), color='green', alpha=0.7)
                 st.pyplot(fig)
-            elif plot_type == "Histogram":
-                fig, ax = plt.subplots()
-                ax.hist(midpoints, weights=freq_data, bins=len(midpoints), color='green', alpha=0.7)
-                st.pyplot(fig)
+        except Exception as e:
+            st.error(f"Error processing grouped data: {e}")
 
 # Sidebar feature selection
 st.sidebar.title("Choose a Feature")
